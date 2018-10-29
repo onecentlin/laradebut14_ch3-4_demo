@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
-use Winnie\LaraDebut\FileExtensionManager;
 use Winnie\LaraDebut\LogAnalyzer;
 
 class LogAnalyzerTest extends TestCase
@@ -14,7 +13,7 @@ class LogAnalyzerTest extends TestCase
 
     protected function setUp()
     {
-        $this->analyzer = new LogAnalyzer(new FileExtensionManager());
+        $this->analyzer = new LogAnalyzer();
     }
 
     /**
@@ -52,9 +51,10 @@ class LogAnalyzerTest extends TestCase
         $myFakeManager = new FakeExtensionManager();
         $myFakeManager->willBeValid = true;
 
-        // 傳入虛設常式物件
-        $log = new LogAnalyzer($myFakeManager);
-        $result = $log->isValidLogFileName("short.ext");
+        // 注入虛設常式
+        $this->analyzer->setManager($myFakeManager);
+
+        $result = $this->analyzer->isValidLogFileName("short.ext");
         $this->assertTrue($result);
     }
 
@@ -69,8 +69,8 @@ class LogAnalyzerTest extends TestCase
         $myFakeManager->willBeValid = false;
         $myFakeManager->willThrow = new \Exception("this is fake");
 
-        $log = new LogAnalyzer($myFakeManager);
-        $result = $log->isValidLogFileName("anything.anyextension");
+        $this->analyzer->setManager($myFakeManager);
+        $result = $this->analyzer->isValidLogFileName("anything.anyextension");
         $this->assertFalse($result);
     }
 }
