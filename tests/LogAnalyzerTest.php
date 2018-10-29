@@ -72,4 +72,15 @@ class LogAnalyzerTest extends TestCase
 
         $this->assertTrue($result);
     }
+
+    /** @test */
+    public function overrideTestWithoutStub()
+    {
+        $logan = new TestableLogAnalyzer2();
+        // 設定假的結果值
+        $logan->isSupported = true;
+
+        $result = $logan->isValidLogFileName("file.ext");
+        $this->assertTrue($result);
+    }
 }
