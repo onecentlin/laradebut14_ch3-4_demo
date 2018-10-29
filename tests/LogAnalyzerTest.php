@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
+use Winnie\LaraDebut\ExtensionManagerFactory;
 use Winnie\LaraDebut\LogAnalyzer;
 
 class LogAnalyzerTest extends TestCase
@@ -51,26 +52,11 @@ class LogAnalyzerTest extends TestCase
         $myFakeManager = new FakeExtensionManager();
         $myFakeManager->willBeValid = true;
 
-        // 注入虛設常式
-        $this->analyzer->setManager($myFakeManager);
+        // 為這個測試案例設定虛設常式，並注入工廠類別中
+        ExtensionManagerFactory::setManager($myFakeManager);
 
-        $result = $this->analyzer->isValidLogFileName("short.ext");
+        $log = new LogAnalyzer();
+        $result = $log->isValidLogFileName("short.ext");
         $this->assertTrue($result);
-    }
-
-    /**
-     * @test
-     * @expectedException  \Exception
-     */
-    public function isValidFileName_ExtManagerThrowsException_ReturnsFalse()
-    {
-        // 3.4.4: 用假物件來摸擬異常 (p.74)
-        $myFakeManager = new FakeExtensionManager();
-        $myFakeManager->willBeValid = false;
-        $myFakeManager->willThrow = new \Exception("this is fake");
-
-        $this->analyzer->setManager($myFakeManager);
-        $result = $this->analyzer->isValidLogFileName("anything.anyextension");
-        $this->assertFalse($result);
     }
 }
