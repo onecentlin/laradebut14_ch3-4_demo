@@ -59,4 +59,17 @@ class LogAnalyzerTest extends TestCase
         $result = $log->isValidLogFileName("short.ext");
         $this->assertTrue($result);
     }
+
+    /** @test */
+    public function overrideTest()
+    {
+        $stub = new FakeExtensionManager();
+        $stub->willBeValid = true;
+
+        // 初始化繼承自被測試類別的衍生類別物件
+        $logan = new TestableLogAnalyzer($stub);
+        $result = $logan->isValidLogFileName("file.ext");
+
+        $this->assertTrue($result);
+    }
 }
