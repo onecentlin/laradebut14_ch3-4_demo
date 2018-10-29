@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Winnie\LaraDebut;
 
-class FileExtensionManager
+class FileExtensionManager implements IExtensionManager
 {
     public function isValid(string $fileName): bool
     {
