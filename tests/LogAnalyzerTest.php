@@ -83,4 +83,16 @@ class LogAnalyzerTest extends TestCase
         $result = $logan->isValidLogFileName("file.ext");
         $this->assertTrue($result);
     }
+
+    /** @test */
+    public function analyze_TooShortFileName_CallsWebService()
+    {
+        $mockService = new FakeWebService();
+        $log = new LogAnalyzer($mockService);
+        $tooShortFileName = "abc.ext";
+
+        $log->analyze($tooShortFileName);
+        // 針對模擬物件進行驗證
+        $this->assertContains("Filename too short: abc.ext", $mockService->lastError);
+    }
 }
