@@ -57,4 +57,20 @@ class LogAnalyzerTest extends TestCase
         $result = $log->isValidLogFileName("short.ext");
         $this->assertTrue($result);
     }
+
+    /**
+     * @test
+     * @expectedException  \Exception
+     */
+    public function isValidFileName_ExtManagerThrowsException_ReturnsFalse()
+    {
+        // 3.4.4: 用假物件來摸擬異常 (p.74)
+        $myFakeManager = new FakeExtensionManager();
+        $myFakeManager->willBeValid = false;
+        $myFakeManager->willThrow = new \Exception("this is fake");
+
+        $log = new LogAnalyzer($myFakeManager);
+        $result = $log->isValidLogFileName("anything.anyextension");
+        $this->assertFalse($result);
+    }
 }
