@@ -7,7 +7,7 @@ use Winnie\LaraDebut\IExtensionManager;
 class TestableLogAnalyzer extends LogAnalyzerUsingFactoryMethod
 {
     /**
-     * @var FakeExtensionManager
+     * @var IExtensionManager
      */
     private $manager;
 

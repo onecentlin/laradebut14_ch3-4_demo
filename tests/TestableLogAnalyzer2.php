@@ -2,8 +2,6 @@
 
 namespace Tests;
 
-use Winnie\LaraDebut\FileExtensionManager;
-
 class TestableLogAnalyzer2 extends LogAnalyzerUsingFactoryMethod2
 {
     public $isSupported;
